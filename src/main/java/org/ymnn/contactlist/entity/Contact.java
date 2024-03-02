@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UuidGenerator;
 
 @Entity
 @Data
@@ -15,8 +16,9 @@ import lombok.NoArgsConstructor;
 public class Contact {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @UuidGenerator
+    @Column(name = "id", unique = true, updatable = false)
+    private String id;
     private String name;
     private String email;
     private String title;
