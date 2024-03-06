@@ -31,7 +31,6 @@ public class ContactService {
     public Page<Contact> getAllContacts(int page, int size) {
         return contactRepository.findAll(PageRequest.of(page, size, Sort.by("name")));
     }
-
     public Contact getContact(String id) {
         return contactRepository.findById(id).orElseThrow(() -> new RuntimeException("Contact not found."));
     }
@@ -45,8 +44,9 @@ public class ContactService {
     }
 
     public String uploadPhoto(String id, MultipartFile file) {
+        log.info("Saving picture for user ID : {}",id);
         Contact contact = getContact(id);
-        String photoUrl= photoFunction.apply(id,file);
+        String photoUrl = photoFunction.apply(id,file);
         contact.setPhotoUrl(photoUrl);
         contactRepository.save(contact);
         return photoUrl;
@@ -64,7 +64,7 @@ public class ContactService {
           Files.copy(image.getInputStream(),fileStorageLocation.resolve(filename),REPLACE_EXISTING);
           return ServletUriComponentsBuilder
                   .fromCurrentContextPath()
-                  .path("/contacts/image/" + filename)
+                  .path("/contacts/photo/" + filename)
                   .toUriString();
       }catch (Exception exception) {
           throw new RuntimeException("Unable to save image");
