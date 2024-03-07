@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 
 const Contact = ({ contact }) => {
     return (
+
         <Link to={`/contacts/${contact.id}`} className="contact__item">
             <div className="contact__header">
                 <div className="contact__image">
@@ -21,6 +22,7 @@ const Contact = ({ contact }) => {
                     <i className='bi bi-x-circle'></i>} {contact.status}</p>
             </div>
         </Link>
+
     )
 }
 
