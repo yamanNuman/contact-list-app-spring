@@ -1,6 +1,6 @@
 import './App.css';
 import {useEffect, useRef, useState} from "react";
-import {getContacts} from "./api/ContactService";
+import {getContacts, saveContact, updatePhoto} from "./api/ContactService";
 import Header from "./components/Header";
 import {Navigate, Route, Routes} from "react-router-dom";
 import ContactList from "./components/ContactList";
@@ -33,11 +33,36 @@ function App() {
     }
   }
 
+  const handleNewContact = async (event) => {
+    event.preventDefault();
+    try{
+      const {data} = await saveContact(values)
+      const formData = new FormData();
+      formData.append('file', file, file.name);
+      formData.append('id', data.id);
+      const { data: photoUrl } = await updatePhoto(formData);
+      toggleModal(false);
+      console.log(photoUrl);
+      setFile(undefined);
+      fileRef.current.value = null;
+      setValues({
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        title: '',
+        status: '',
+      });
+      getAllContacts();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onChange = (event) => {
     setValues({...values, [event.target.name]: event.target.value});
     console.log(values);
   }
-  const toggleModal = (show) => show ? modelRef.current.showModal() : modelRef.current.close();
+  const toggleModal = show => show ? modelRef.current.showModal() : modelRef.current.close();
 
   useEffect(() => {
     getAllContacts();
@@ -62,7 +87,7 @@ function App() {
         </div>
         <div className="divider"></div>
         <div className="modal__body">
-          <form>
+          <form onSubmit={handleNewContact}>
             <div className="user-details">
               <div className="input-box">
                 <span className="details">Name</span>
