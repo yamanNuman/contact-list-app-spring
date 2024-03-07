@@ -34,8 +34,13 @@ function App() {
     }
   }
 
-  const updateContact = async () => {
-
+  const updateContact = async (contact) => {
+    try {
+      const { data } = await saveContact(contact);
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   const updateImage =  async (formData) => {
