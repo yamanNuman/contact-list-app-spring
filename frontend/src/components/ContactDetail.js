@@ -1,9 +1,10 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Link, useParams} from "react-router-dom";
-import {getContact} from "../api/ContactService";
+import {Link, Navigate, useNavigate, useParams} from "react-router-dom";
+import {deleteContact, getContact} from "../api/ContactService";
 
 const ContactDetail = ({updateContact, updateImage}) => {
     const inputRef = useRef();
+    const navigate = useNavigate();
     const [contact, setContact] = useState({
         id:'',
         name: '',
@@ -50,6 +51,11 @@ const ContactDetail = ({updateContact, updateImage}) => {
         await fetchContact(id);
     };
 
+    const deleteRecord = async () => {
+        await deleteContact(contact.id);
+        navigate("/contacts");
+    }
+
     useEffect(() => {
         fetchContact();
     },[]);
@@ -66,6 +72,7 @@ const ContactDetail = ({updateContact, updateImage}) => {
                         <p className='profile__muted'>JPG,GIF or PNG. Max size of 10MB</p>
                         <button onClick={selectImage} className='btn'><i className='bi bi-cloud-upload'></i>Change Photo</button>
                     </div>
+                    <button onClick={deleteRecord} className='btn'>Delete</button>
                 </div>
                 <div className='profile__settings'>
                     <div>

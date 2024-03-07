@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.ymnn.contactlist.entity.Contact;
 import org.ymnn.contactlist.repository.ContactRepository;
+
+import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,7 +42,9 @@ public class ContactService {
         return contactRepository.save(contact);
     }
 
-    public void deleteContact(String id) {
+    public void deleteContact(String id) throws IOException {
+        File file = new File("C:\\Users\\ymnN\\Desktop\\contact-list-app-spring\\photo\\" + id + ".png");
+        file.delete();
         contactRepository.deleteById(id);
     }
 

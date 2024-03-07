@@ -41,7 +41,7 @@ public class ContactController {
     }
 
     @PutMapping("/photo")
-    public ResponseEntity<String> uploadPhoto(@RequestParam("id")String id, @RequestParam("file")MultipartFile file) {
+    public ResponseEntity<String> uploadPhoto(@RequestParam("id") String id, @RequestParam("file") MultipartFile file) {
         return ResponseEntity.ok().body(contactService.uploadPhoto(id,file));
     }
 
@@ -51,7 +51,7 @@ public class ContactController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteContact(@PathVariable String id) {
+    public void deleteContact(@PathVariable String id) throws IOException {
         contactService.deleteContact(id);
     }
 }
