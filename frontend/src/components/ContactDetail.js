@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Link, useParams} from "react-router-dom";
 import {getContact} from "../api/ContactService";
 
 const ContactDetail = ({updateContact, updateImage}) => {
+    const inputRef = useRef();
     const [contact, setContact] = useState({
         name: '',
         email: '',
@@ -24,11 +25,23 @@ const ContactDetail = ({updateContact, updateImage}) => {
             console.log(error)
         }
     };
-
+    const selectImage = () => {
+        inputRef.current.click();
+    }
+    const photoUpdate = async (file) => {
+        try{
+            const formData = new FormData();
+            formData.append('file', file, file.name);
+            formData.append('id', id);
+            await updateImage(formData);
+            setContact((prev) => ({ ...prev, photoUrl: `${prev.photoUrl}?updated_at=${new Date().getTime()}` }));
+        } catch (error){
+            console.log(error)
+        }
+    }
     useEffect(() => {
         fetchContact();
-    },[])
-
+    },[]);
     return (
         <>
             <Link to="/contacts" className='link'><i className='bi bi-arrow-left'></i>Back to list</Link>
@@ -38,11 +51,16 @@ const ContactDetail = ({updateContact, updateImage}) => {
                     <div className='profile__metadata'>
                         <p className='profile__name'>{contact.name}</p>
                         <p className='profile__muted'>JPG,GIF or PNG. Max size of 10MB</p>
-                        <button className='btn'><i className='bi bi-cloud-upload'></i>Change Photo</button>
+                        <button onClick={selectImage} className='btn'><i className='bi bi-cloud-upload'></i>Change Photo</button>
                     </div>
                 </div>
                 <div className='profile__settings'>Settings will go here.</div>
             </div>
+            <form style={{ display: 'none'}}>
+                <input type='file' ref={inputRef}
+                       onChange={(event) => photoUpdate(event.target.files[0])}
+                       name='file' accept='image/*'/>
+            </form>
         </>
     );
 };
