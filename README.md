@@ -34,15 +34,15 @@ On the page that opens, there is a list of all registered contacts and a button 
 
 It moves to the next page after every 10 records.
 
-![contact-list](images/contact-list.PNG)
+![contact-list](images/contact-list.png)
 
 After clicking the add new contact button, you can create a new record from the window that opens. You can also upload a photo on the recording screen.
 
-![add-contact](images/add-contact.PNG)
+![add-contact](images/add-contact.png)
 
 If you want to update the information of a registered contact, you can click on it and perform the update on the page that opens.
 
-![update-contact](images/update-contact.PNG)
+![update-contact](images/update-contact.png)
 
 At the same time, if you want to delete the record, you can do so from this screen. At the same time, the photo saved in the backend is also deleted.
 
