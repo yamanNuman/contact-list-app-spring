@@ -4,6 +4,7 @@ import {getContacts, saveContact, updatePhoto} from "./api/ContactService";
 import Header from "./components/Header";
 import {Navigate, Route, Routes} from "react-router-dom";
 import ContactList from "./components/ContactList";
+import ContactDetail from "./components/ContactDetail";
 
 function App() {
   const modelRef = useRef();
@@ -31,6 +32,14 @@ function App() {
       console.log(error)
       // fileRef.current.value = null;
     }
+  }
+
+  const updateContact = async () => {
+
+  }
+
+  const updateImage =  async () => {
+
   }
 
   const handleNewContact = async (event) => {
@@ -75,6 +84,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to={"/contacts"} />} />
         <Route path="/contacts" element={<ContactList data={data} currentPage={currentPage} getAllContacts={getAllContacts} />} />
+        <Route path="/contacts/:id" element={<ContactDetail updateContact={updateContact} updateImage={updateImage} /> }/>
       </Routes>
         </div>
       </main>
